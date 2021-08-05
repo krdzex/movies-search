@@ -2,7 +2,7 @@
 import React from 'react';
 import { Input, Button, Menu } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllMovies, getInputText } from '../Actions';
+import { getAllMovies, getInputText, getSelectedMovie } from '../Actions';
 import axios from 'axios';
 
 const SearchBar = () => {
@@ -31,6 +31,7 @@ const SearchBar = () => {
         ).catch(reason =>
             console.error(reason)
         );
+        dispatch(getSelectedMovie(""));
     }
 
     return (
