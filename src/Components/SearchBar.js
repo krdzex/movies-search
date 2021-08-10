@@ -14,14 +14,14 @@ const SearchBar = () => {
 
     const value = useSelector(state => state.inputText);
 
-    const onSubmit = async() => {
+    const onSubmit = async () => {
 
         let options = {
             method: 'GET',
             url: 'https://imdb8.p.rapidapi.com/auto-complete',
             params: { q: value },
             headers: {
-                'x-rapidapi-key': 'a9bcced616mshe183b5391a313c5p14211djsnaeb040e4b0ec',
+                'x-rapidapi-key': '56580db411mshaeb26ec4a5b81f0p15ec1ejsn36e21f2f65f9',
                 'x-rapidapi-host': 'imdb8.p.rapidapi.com'
             }
         };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { getGanres, getSelectedMovie, getSimularMoviesId } from '../Actions';
+import { getGanres, getSelectedMovie, getSimularMovies, getSimularMoviesId } from '../Actions';
 import axios from 'axios';
 
 const MovieCover = ({ movieInfo, classInfo }) => {
@@ -16,7 +16,7 @@ const MovieCover = ({ movieInfo, classInfo }) => {
             url: 'https://imdb8.p.rapidapi.com/title/get-genres',
             params: { tconst: movieInfo.id },
             headers: {
-                'x-rapidapi-key': 'a9bcced616mshe183b5391a313c5p14211djsnaeb040e4b0ec',
+                'x-rapidapi-key': '56580db411mshaeb26ec4a5b81f0p15ec1ejsn36e21f2f65f9',
                 'x-rapidapi-host': 'imdb8.p.rapidapi.com'
             }
         };
@@ -32,12 +32,13 @@ const MovieCover = ({ movieInfo, classInfo }) => {
             url: 'https://imdb8.p.rapidapi.com/title/get-more-like-this',
             params: { tconst: movieInfo.id },
             headers: {
-                'x-rapidapi-key': 'a9bcced616mshe183b5391a313c5p14211djsnaeb040e4b0ec',
+                'x-rapidapi-key': '56580db411mshaeb26ec4a5b81f0p15ec1ejsn36e21f2f65f9',
                 'x-rapidapi-host': 'imdb8.p.rapidapi.com'
             }
         };
         axios.request(options2).then(response => {
             let simularMovies = []
+            let simularMovies2 = []
             if (response.data.length > 10) {
                 for (let i = 0; i < 10; i++) {
                     simularMovies.push(response.data[i].split("/")[2])
@@ -46,6 +47,23 @@ const MovieCover = ({ movieInfo, classInfo }) => {
                 for (let i = 0; i < response.data.length; i++) {
                     simularMovies.push(response.data[i].split("/")[2])
                 }
+            }
+            for (let i = 0; i < 4; i++) {
+                let options = {
+                    method: 'GET',
+                    url: 'https://imdb8.p.rapidapi.com/title/get-details',
+                    params: { tconst: simularMovies[i].replace(/'/g, "") },
+                    headers: {
+                        'x-rapidapi-key': '56580db411mshaeb26ec4a5b81f0p15ec1ejsn36e21f2f65f9',
+                        'x-rapidapi-host': 'imdb8.p.rapidapi.com'
+                    }
+                };
+
+                axios.request(options).then(response =>
+                    dispatch(getSimularMovies(response.data))
+                ).catch(reason =>
+                    console.error(reason)
+                );
             }
             dispatch(getSimularMoviesId(simularMovies))
         }

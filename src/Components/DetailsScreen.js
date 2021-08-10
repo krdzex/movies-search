@@ -10,12 +10,10 @@ const DetailsScreen = () => {
     const selectedMovie = useSelector(state => state.selectedMovie)
     const simularMoviesId = useSelector(state => state.simularMoviesId)
     const dispatch = useDispatch()
-    useEffect(() => {
-        console.log("ASDASDASDA")
+    /*useEffect(() => {
         console.log(simularMoviesId)
         let simularMovies = [];
-        for (let i = 0; i < 1; i++) {
-            console.log(simularMoviesId[i].replace(/'/g, ""))
+        for (let i = 0; i < 5; i++) {
             let options = {
                 method: 'GET',
                 url: 'https://imdb8.p.rapidapi.com/title/get-details',
@@ -36,7 +34,7 @@ const DetailsScreen = () => {
         console.log(simularMovies)
         //dispatch(getSimularMovies(simularMovies))
 
-    }, [simularMoviesId])
+    }, [simularMoviesId])*/
     return (
         <div>
             <Header />
