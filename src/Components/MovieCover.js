@@ -1,77 +1,63 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { getGanres, getSelectedMovie, getSimularMovies, getSimularMoviesId } from '../Actions';
+import { deleteSimularMovies, getGanres, getSelectedMovie, getSimularMovies } from '../Actions';
+import { getSelectedMovieInfo, getSimularIds } from "../Api/apiService"
 import axios from 'axios';
 
 const MovieCover = ({ movieInfo, classInfo }) => {
     const dispatch = useDispatch();
-    const movieImageUrl = movieInfo.i.imageUrl;
-    const movieTitle = movieInfo.l;
+    const movieImageUrl = movieInfo.image.url;
+    const movieTitle = movieInfo.title;
 
-    const onMovieClick = async () => {
+    let genresOptions = {
+        method: 'GET',
+        url: 'https://imdb8.p.rapidapi.com/title/get-genres',
+        params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, "") },
+        headers: {
+            'x-rapidapi-key': 'ff4e74efc9msh8c41308b3ec305dp1c2665jsn956ffd5c2b8f',
+            'x-rapidapi-host': 'imdb8.p.rapidapi.com'
+        }
+    };
+
+    let simularMoviesIdOptions = {
+        method: 'GET',
+        url: 'https://imdb8.p.rapidapi.com/title/get-more-like-this',
+        params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, "") },
+        headers: {
+            'x-rapidapi-key': 'ff4e74efc9msh8c41308b3ec305dp1c2665jsn956ffd5c2b8f',
+            'x-rapidapi-host': 'imdb8.p.rapidapi.com'
+        }
+    };
+
+    const onMovieClick = () => {
+        dispatch(deleteSimularMovies())
         dispatch(getSelectedMovie(movieInfo))
-
-        let options = {
-            method: 'GET',
-            url: 'https://imdb8.p.rapidapi.com/title/get-genres',
-            params: { tconst: movieInfo.id },
-            headers: {
-                'x-rapidapi-key': '56580db411mshaeb26ec4a5b81f0p15ec1ejsn36e21f2f65f9',
-                'x-rapidapi-host': 'imdb8.p.rapidapi.com'
-            }
-        };
-
-        await axios.request(options).then(response =>
-            dispatch(getGanres(response.data))
-        ).catch(error =>
-            console.error(error)
-        );
-
-        let options2 = {
-            method: 'GET',
-            url: 'https://imdb8.p.rapidapi.com/title/get-more-like-this',
-            params: { tconst: movieInfo.id },
-            headers: {
-                'x-rapidapi-key': '56580db411mshaeb26ec4a5b81f0p15ec1ejsn36e21f2f65f9',
-                'x-rapidapi-host': 'imdb8.p.rapidapi.com'
-            }
-        };
-        axios.request(options2).then(response => {
-            let simularMovies = []
-            let simularMovies2 = []
-            if (response.data.length > 10) {
-                for (let i = 0; i < 10; i++) {
-                    simularMovies.push(response.data[i].split("/")[2])
-                }
-            } else {
-                for (let i = 0; i < response.data.length; i++) {
-                    simularMovies.push(response.data[i].split("/")[2])
-                }
-            }
-            for (let i = 0; i < 4; i++) {
+        let simularMoviesId;
+        getSelectedMovieInfo(genresOptions, data => {
+            dispatch(getGanres(data))
+        }).then(() =>
+            getSimularIds(simularMoviesIdOptions, data => {
+                simularMoviesId = data;
+            })
+        ).then(async () => {
+            for (let i = 0; (simularMoviesId.lenght < 10 ? i < simularMoviesId.lenght : i < 10); i++) {
                 let options = {
                     method: 'GET',
                     url: 'https://imdb8.p.rapidapi.com/title/get-details',
-                    params: { tconst: simularMovies[i].replace(/'/g, "") },
+                    params: { tconst: simularMoviesId[i].replace(/'/g, "") },
                     headers: {
-                        'x-rapidapi-key': '56580db411mshaeb26ec4a5b81f0p15ec1ejsn36e21f2f65f9',
+                        'x-rapidapi-key': 'ff4e74efc9msh8c41308b3ec305dp1c2665jsn956ffd5c2b8f',
                         'x-rapidapi-host': 'imdb8.p.rapidapi.com'
                     }
                 };
-
-                axios.request(options).then(response =>
+                await axios.request(options).then(response =>
                     dispatch(getSimularMovies(response.data))
                 ).catch(reason =>
                     console.error(reason)
                 );
             }
-            dispatch(getSimularMoviesId(simularMovies))
         }
-        ).catch(error =>
-            console.error(error)
-        );
-
-
+        )
     }
     return (
         <div className={"movieCover " + classInfo} onClick={onMovieClick}>

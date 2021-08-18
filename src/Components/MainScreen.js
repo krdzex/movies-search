@@ -5,10 +5,11 @@ import MovieList from './MovieList';
 
 const MainScreen = () => {
     const movieArray = useSelector(state => state.allMovies);
+
     return (
         <div>
             <Header />
-            <MovieList movieArray={movieArray}/>
+            <MovieList movieArray={movieArray} />
         </div>
     );
 };

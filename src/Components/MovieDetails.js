@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import MovieList from './MovieList';
 
 const MovieDetails = () => {
     const movieDetails = useSelector(state => state.movieDetails);

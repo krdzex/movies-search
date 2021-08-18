@@ -12,6 +12,19 @@ export const getAllMovies = (movies) => {
     }
 }
 
+export const deleteAllMovies = () => {
+    return {
+        type: "DELETE_ALL_MOVIES"
+    }
+}
+
+export const deleteSimularMovies = () => {
+    return {
+        type: "DELETE_SIMULAR_MOVIES"
+    }
+}
+
+
 export const getSelectedMovie = (selectedMovie) => {
     return {
         type: "GET_SELECTED_MOVIE",
