@@ -61,6 +61,12 @@ export const getAwards = (awards) => {
     }
 }
 
+export const getPlot = (plot) => {
+    return {
+        type: "GET_PLOT",
+        payload: plot
+    }
+}
 export const getSimularMoviesId = (simularMoviesId) => {
     return {
         type: "GET_SIMULAR_MOVIES_ID",
@@ -74,4 +80,18 @@ export const getSimularMovies = (simularMovies) => {
         payload: simularMovies
     }
 }
+
+export const loading = () => {
+    return {
+        type: "LOADING"
+    }
+}
+
+export const stopLoading = () => {
+    return {
+        type: "STOP_LOADING"
+    }
+}
+
+
 

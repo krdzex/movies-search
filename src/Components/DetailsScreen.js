@@ -13,7 +13,7 @@ const DetailsScreen = () => {
             <Header />
             <div className="detailsScreenWrapper">
                 <MovieCover movieInfo={selectedMovie} classInfo={"selectedCover"} />
-                <MovieDetails />
+             <MovieDetails />
             </div>
             <div className="titleSimular">
                 Movies like this:

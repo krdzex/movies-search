@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteSimularMovies, getGanres, getSelectedMovie, getSimularMovies } from '../Actions';
-import { getSelectedMovieInfo, getSimularIds } from "../Api/apiService"
+import { deleteSimularMovies, getAwards, getGanres, getPlot, getReleases, getReviews, getSelectedMovie, getSimularMovies, loading, stopLoading } from '../Actions';
+import { getSelectedMovieAwards, getSelectedMovieGanre, getSelectedMoviePlot, getSelectedMovieReleases, getSelectedMovieReview, getSimularIds } from "../Api/apiService"
 import axios from 'axios';
 
 const MovieCover = ({ movieInfo, classInfo }) => {
@@ -14,7 +14,7 @@ const MovieCover = ({ movieInfo, classInfo }) => {
         url: 'https://imdb8.p.rapidapi.com/title/get-genres',
         params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, "") },
         headers: {
-            'x-rapidapi-key': 'ff4e74efc9msh8c41308b3ec305dp1c2665jsn956ffd5c2b8f',
+            'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb',
             'x-rapidapi-host': 'imdb8.p.rapidapi.com'
         }
     };
@@ -24,17 +24,75 @@ const MovieCover = ({ movieInfo, classInfo }) => {
         url: 'https://imdb8.p.rapidapi.com/title/get-more-like-this',
         params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, "") },
         headers: {
-            'x-rapidapi-key': 'ff4e74efc9msh8c41308b3ec305dp1c2665jsn956ffd5c2b8f',
+            'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb',
             'x-rapidapi-host': 'imdb8.p.rapidapi.com'
         }
     };
 
+    var releasesOptions = {
+        method: 'GET',
+        url: 'https://imdb8.p.rapidapi.com/title/get-releases',
+        params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, "") },
+        headers: {
+            'x-rapidapi-host': 'imdb8.p.rapidapi.com',
+            'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb'
+        }
+    };
+
+
+    var awardsOptions = {
+        method: 'GET',
+        url: 'https://imdb8.p.rapidapi.com/title/get-awards',
+        params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, "") },
+        headers: {
+            'x-rapidapi-host': 'imdb8.p.rapidapi.com',
+            'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb'
+        }
+    };
+
+    var reviewOptions = {
+        method: 'GET',
+        url: 'https://imdb8.p.rapidapi.com/title/get-reviews',
+        params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, ""), currentCountry: 'US', purchaseCountry: 'US' },
+        headers: {
+            'x-rapidapi-host': 'imdb8.p.rapidapi.com',
+            'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb'
+        }
+    };
+
+    var plotOptions = {
+        method: 'GET',
+        url: 'https://imdb8.p.rapidapi.com/title/get-plots',
+        params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, "") },
+        headers: {
+            'x-rapidapi-host': 'imdb8.p.rapidapi.com',
+            'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb'
+        }
+    };
+
     const onMovieClick = () => {
+        dispatch(loading())
         dispatch(deleteSimularMovies())
         dispatch(getSelectedMovie(movieInfo))
         let simularMoviesId;
-        getSelectedMovieInfo(genresOptions, data => {
+        getSelectedMovieGanre(genresOptions, data => {
             dispatch(getGanres(data))
+        }).then(() => {
+            getSelectedMovieReleases(releasesOptions, data => {
+                dispatch(getReleases(data));
+            })
+        }).then(() => {
+            getSelectedMovieAwards(awardsOptions, data => {
+                dispatch(getAwards(data))
+            })
+        }).then(() => {
+            getSelectedMovieReview(reviewOptions, data => {
+                dispatch(getReviews(data))
+            })
+        }).then(() => {
+            getSelectedMoviePlot(plotOptions, data => {
+                dispatch(getPlot(data))
+            })
         }).then(() =>
             getSimularIds(simularMoviesIdOptions, data => {
                 simularMoviesId = data;
@@ -46,7 +104,7 @@ const MovieCover = ({ movieInfo, classInfo }) => {
                     url: 'https://imdb8.p.rapidapi.com/title/get-details',
                     params: { tconst: simularMoviesId[i].replace(/'/g, "") },
                     headers: {
-                        'x-rapidapi-key': 'ff4e74efc9msh8c41308b3ec305dp1c2665jsn956ffd5c2b8f',
+                        'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb',
                         'x-rapidapi-host': 'imdb8.p.rapidapi.com'
                     }
                 };
@@ -57,7 +115,9 @@ const MovieCover = ({ movieInfo, classInfo }) => {
                 );
             }
         }
-        )
+        ).then(() => {
+            dispatch(stopLoading())
+        })
     }
     return (
         <div className={"movieCover " + classInfo} onClick={onMovieClick}>

@@ -10,7 +10,7 @@ const getSearchMovies = async (options, callback) => {
         })
 }
 
-const getSelectedMovieInfo = async (options, callback) => {
+const getSelectedMovieGanre = async (options, callback) => {
     await axios.request(options)
         .then(response => callback(response.data))
         .catch(reason => {
@@ -18,6 +18,55 @@ const getSelectedMovieInfo = async (options, callback) => {
             callback(false);
         })
 }
+
+const getSelectedMovieReleases = async (options, callback) => {
+    await axios.request(options)
+        .then(response => {
+            for (let i = 0; i < response.data.length; i++) {
+                if (response.data[i].region === "BA") {
+                    callback(response.data[i].date)
+                    return;
+                }
+            }
+            callback("No releases date for BiH")
+        })
+        .catch(reason => {
+            console.log(reason);
+            callback(false);
+        })
+}
+
+const getSelectedMovieAwards = async (options, callback) => {
+    await axios.request(options)
+        .then(response => {
+            if (response.data.resource.awards === undefined) {
+                callback("This movie dont have any awards")
+                return
+            }
+            callback(response.data.resource.awards.length)
+        }
+        )
+        .catch(reason => {
+            console.log(reason);
+            callback(false);
+        })
+}
+
+const getSelectedMovieReview = async (options, callback) => {
+    await axios.request(options)
+        .then(response =>
+            callback(response.data.featuredUserReview.review.reviewText)
+
+        )
+        .catch(reason => {
+            console.log(reason);
+            callback(false);
+        })
+}
+
+
+
+
 const getSimularIds = async (options, callback) => {
     await axios.request(options)
         .then(response => {
@@ -60,8 +109,19 @@ const getSimularMoviesDetails = async (options, callback) => {
         })
 }
 
+const getSelectedMoviePlot = async (options, callback) => {
+    await axios.request(options)
+        .then(response => {
+            callback(response.data.plots[0].text)
+        })
+        .catch(reason => {
+            console.log(reason);
+            callback(false);
+        })
+}
 
 
 
 
-export { getSearchMovies, getSelectedMovieInfo, getSimularIds, getSimularMoviesDetails }
+
+export { getSearchMovies, getSelectedMovieGanre, getSimularIds, getSimularMoviesDetails, getSelectedMovieReleases, getSelectedMovieAwards, getSelectedMovieReview, getSelectedMoviePlot }
