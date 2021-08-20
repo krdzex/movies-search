@@ -4,6 +4,9 @@ const allMovies = (state = [], action) => {
             return state = [...state, action.payload];
         case "DELETE_ALL_MOVIES":
             return state = [];
+        case "NO_MOVIES":
+            return state = "We dont have movies with that name. Please try another movie!";
+
         default:
             return state;
     }

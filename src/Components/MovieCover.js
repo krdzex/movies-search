@@ -14,7 +14,7 @@ const MovieCover = ({ movieInfo, classInfo }) => {
         url: 'https://imdb8.p.rapidapi.com/title/get-genres',
         params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, "") },
         headers: {
-            'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb',
+            'x-rapidapi-key': 'de4a4b3d96mshcb05eebdc8a5708p1c9a1fjsnf84f820f468d',
             'x-rapidapi-host': 'imdb8.p.rapidapi.com'
         }
     };
@@ -24,7 +24,7 @@ const MovieCover = ({ movieInfo, classInfo }) => {
         url: 'https://imdb8.p.rapidapi.com/title/get-more-like-this',
         params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, "") },
         headers: {
-            'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb',
+            'x-rapidapi-key': 'de4a4b3d96mshcb05eebdc8a5708p1c9a1fjsnf84f820f468d',
             'x-rapidapi-host': 'imdb8.p.rapidapi.com'
         }
     };
@@ -35,7 +35,7 @@ const MovieCover = ({ movieInfo, classInfo }) => {
         params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, "") },
         headers: {
             'x-rapidapi-host': 'imdb8.p.rapidapi.com',
-            'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb'
+            'x-rapidapi-key': 'de4a4b3d96mshcb05eebdc8a5708p1c9a1fjsnf84f820f468d'
         }
     };
 
@@ -46,7 +46,7 @@ const MovieCover = ({ movieInfo, classInfo }) => {
         params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, "") },
         headers: {
             'x-rapidapi-host': 'imdb8.p.rapidapi.com',
-            'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb'
+            'x-rapidapi-key': 'de4a4b3d96mshcb05eebdc8a5708p1c9a1fjsnf84f820f468d'
         }
     };
 
@@ -56,7 +56,7 @@ const MovieCover = ({ movieInfo, classInfo }) => {
         params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, ""), currentCountry: 'US', purchaseCountry: 'US' },
         headers: {
             'x-rapidapi-host': 'imdb8.p.rapidapi.com',
-            'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb'
+            'x-rapidapi-key': 'de4a4b3d96mshcb05eebdc8a5708p1c9a1fjsnf84f820f468d'
         }
     };
 
@@ -66,7 +66,7 @@ const MovieCover = ({ movieInfo, classInfo }) => {
         params: { tconst: movieInfo.id.split("/")[2].replace(/'/g, "") },
         headers: {
             'x-rapidapi-host': 'imdb8.p.rapidapi.com',
-            'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb'
+            'x-rapidapi-key': 'de4a4b3d96mshcb05eebdc8a5708p1c9a1fjsnf84f820f468d'
         }
     };
 
@@ -77,34 +77,35 @@ const MovieCover = ({ movieInfo, classInfo }) => {
         let simularMoviesId;
         getSelectedMovieGanre(genresOptions, data => {
             dispatch(getGanres(data))
-        }).then(() => {
-            getSelectedMovieReleases(releasesOptions, data => {
+        }).then(async() => {
+            await getSelectedMovieReleases(releasesOptions, data => {
                 dispatch(getReleases(data));
             })
-        }).then(() => {
-            getSelectedMovieAwards(awardsOptions, data => {
+        }).then(async() => {
+            await getSelectedMovieAwards(awardsOptions, data => {
                 dispatch(getAwards(data))
             })
-        }).then(() => {
-            getSelectedMovieReview(reviewOptions, data => {
+        }).then(async () => {
+            await getSelectedMovieReview(reviewOptions, data => {
                 dispatch(getReviews(data))
             })
-        }).then(() => {
-            getSelectedMoviePlot(plotOptions, data => {
+        }).then(async() => {
+            await getSelectedMoviePlot(plotOptions, data => {
                 dispatch(getPlot(data))
             })
-        }).then(() =>
-            getSimularIds(simularMoviesIdOptions, data => {
+        }).then(async () =>
+            await getSimularIds(simularMoviesIdOptions, data => {
                 simularMoviesId = data;
             })
         ).then(async () => {
+            console.log(simularMoviesId)
             for (let i = 0; (simularMoviesId.lenght < 10 ? i < simularMoviesId.lenght : i < 10); i++) {
                 let options = {
                     method: 'GET',
                     url: 'https://imdb8.p.rapidapi.com/title/get-details',
                     params: { tconst: simularMoviesId[i].replace(/'/g, "") },
                     headers: {
-                        'x-rapidapi-key': '74814e78e6msh8c9eccb596d635cp1f2de5jsn519e75b628bb',
+                        'x-rapidapi-key': 'de4a4b3d96mshcb05eebdc8a5708p1c9a1fjsnf84f820f468d',
                         'x-rapidapi-host': 'imdb8.p.rapidapi.com'
                     }
                 };

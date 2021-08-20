@@ -93,5 +93,12 @@ export const stopLoading = () => {
     }
 }
 
+export const noMovies = () => {
+    return {
+        type: "NO_MOVIES"
+    }
+}
+
+
 
 

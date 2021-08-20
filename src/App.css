@@ -99,6 +99,7 @@ input:focus {
   margin: 15px 20px 0px 0px;
   color: white;
   padding: 10px;
+  position: relative;
 }
 
 .selectedCover {
@@ -121,6 +122,8 @@ input:focus {
   letter-spacing: 0.1em;
   font-size: 15px;
   padding: 15px;
+  overflow: auto;
+  max-height: 315px;
 }
 
 .titleSimular {
@@ -145,12 +148,12 @@ input:focus {
   width: auto;
 }
 
-@media (max-width: 575.98px) {
+@media (max-width: 375.98px) {
   .selectedCover {
     position: absolute;
     left: 50%;
     transform: translate(-50%);
-    width: 50%;
+    width: 70%;
   }
   .detailsScreenWrapper {
     position: relative;
@@ -162,7 +165,40 @@ input:focus {
     width: 100%;
   }
   .simularMovies {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+  .reviews {
+    -webkit-line-clamp: 1 !important;
+  }
+  .plot {
+    -webkit-line-clamp: 1 !important;
+  }
+}
+
+@media (min-width: 376px) and (max-width: 575.98px) {
+  .selectedCover {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width: 70%;
+  }
+  .detailsScreenWrapper {
+    position: relative;
+    height: 1000px;
+  }
+  .detailsWrapper {
+    bottom: 20px;
+    position: absolute;
+    width: 100%;
+  }
+  .simularMovies {
+    grid-template-columns: repeat(auto-fill, minmax(99px, 1fr));
+  }
+  .reviews {
+    -webkit-line-clamp: 2 !important;
+  }
+  .plot {
+    -webkit-line-clamp: 2 !important;
   }
 }
 
@@ -185,6 +221,12 @@ input:focus {
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  .movieCover {
+    width: 200px;
+  }
   .detailsWrapper {
     width: 65%;
   }
@@ -192,7 +234,13 @@ input:focus {
     width: 30%;
   }
   .simularMovies {
-    grid-template-columns: repeat(auto-fill, minmax(123px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+  .reviews {
+    -webkit-line-clamp: 3 !important;
+  }
+  .plot {
+    -webkit-line-clamp: 2 !important;
   }
 }
 
@@ -256,4 +304,41 @@ b {
   align-items: center;
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(50, 50, 50, 0.3));
   z-index: 100 !important;
+}
+
+.errorMessage {
+  color: white;
+  padding: 50px 0;
+  font-size: 30px;
+}
+
+.reviews {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.plot {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.buttonForMore {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translate(-50%);
+  color: white;
+  background-color: cornflowerblue;
+  border-radius: 10px;
+  padding: 5px 20px;
+  font-size: 20px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
 }
