@@ -18,7 +18,7 @@ const SearchBar = () => {
         url: 'https://imdb8.p.rapidapi.com/auto-complete',
         params: { q: value },
         headers: {
-           'x-rapidapi-key': 'de4a4b3d96mshcb05eebdc8a5708p1c9a1fjsnf84f820f468d',
+            'x-rapidapi-key': 'de4a4b3d96mshcb05eebdc8a5708p1c9a1fjsnf84f820f468d',
             'x-rapidapi-host': 'imdb8.p.rapidapi.com'
         }
     };
@@ -38,7 +38,7 @@ const SearchBar = () => {
                         url: 'https://imdb8.p.rapidapi.com/title/get-details',
                         params: { tconst: allMovies[i].id },
                         headers: {
-                           'x-rapidapi-key': 'de4a4b3d96mshcb05eebdc8a5708p1c9a1fjsnf84f820f468d',
+                            'x-rapidapi-key': 'de4a4b3d96mshcb05eebdc8a5708p1c9a1fjsnf84f820f468d',
                             'x-rapidapi-host': 'imdb8.p.rapidapi.com'
                         }
                     };

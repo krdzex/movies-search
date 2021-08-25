@@ -141,7 +141,7 @@ input:focus {
 }
 
 .simularMovies {
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 }
 
 .simularMovies .underSimular {
