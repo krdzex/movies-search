@@ -23,8 +23,8 @@ const MovieDetails = () => {
                 <p><b>Movie genres</b>: {movieDetails.ganres.toString()}</p>
                 <p><b>Release in BiH</b>: {movieDetails.releases}</p>
                 <p><b>Awards for this movie</b>: {movieDetails.awards}</p>
-                <p className={shorterVersion ? "reviews" : ""}><b>Review</b>: {movieDetails.reviews}</p>
-                <p className={shorterVersion ? "plot" : ""}><b>Plot</b>: {movieDetails.plot}</p>
+                <p className={shorterVersion ? "reviews" : ""}><b>Review</b>: {movieDetails.reviews ? movieDetails.reviews : "No reviews"}</p>
+                <p className={shorterVersion ? "plot" : ""}><b>Plot</b>: {movieDetails.plot ? movieDetails.plot : "No plot"}</p>
                 <button className="buttonForMore" onClick={extendDetails}>{shorterVersion ? "Press for more details" : "Press for less details"}</button>
             </div>
         </div>

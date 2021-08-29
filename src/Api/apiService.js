@@ -3,13 +3,24 @@ import axios from "axios";
 
 const getSearchMovies = async (options, callback) => {
     await axios.request(options)
-        .then(response => callback(response.data.d))
+        .then(response => {
+            let realMovies = [];
+            if (response.data.results !== undefined) {
+                for (let i = 0; i < response.data.results.length; i++) {
+                    if (!('disambiguation' in response.data.results[i]) && !('akas' in response.data.results[i]) && !('knownFor' in response.data.results[i]) && !('episode' in response.data.results[i])) {
+                        realMovies.push(response.data.results[i])
+                    }
+                }
+                callback(realMovies)
+            } else {
+                callback(false)
+            }
+        })
         .catch(reason => {
             console.log(reason);
             callback(false);
         })
 }
-
 const getSelectedMovieGanre = async (options, callback) => {
     await axios.request(options)
         .then(response => callback(response.data))
@@ -54,9 +65,12 @@ const getSelectedMovieAwards = async (options, callback) => {
 
 const getSelectedMovieReview = async (options, callback) => {
     await axios.request(options)
-        .then(response =>
-            callback(response.data.featuredUserReview.review.reviewText)
-
+        .then(response => {
+            if (response.data.featuredUserReview.review !== undefined) {
+                callback(response.data.featuredUserReview.review.reviewText)
+            }
+            callback(false);
+        }
         )
         .catch(reason => {
             console.log(reason);
@@ -112,7 +126,10 @@ const getSimularMoviesDetails = async (options, callback) => {
 const getSelectedMoviePlot = async (options, callback) => {
     await axios.request(options)
         .then(response => {
-            callback(response.data.plots[0].text)
+            if (response.data.plots.length !== 0) {
+                callback(response.data.plots[0].text)
+            }
+            callback(false);
         })
         .catch(reason => {
             console.log(reason);

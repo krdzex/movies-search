@@ -13,12 +13,12 @@ const DetailsScreen = () => {
             <Header />
             <div className="detailsScreenWrapper">
                 <MovieCover movieInfo={selectedMovie} classInfo={"selectedCover"} />
-             <MovieDetails />
+                <MovieDetails />
             </div>
             <div className="titleSimular">
                 Movies like this:
             </div>
-            <MovieList movieArray={movieArray} classNameInfo="simularMovies" />
+            {movieArray.length !== 0 ? <MovieList movieArray={movieArray} classNameInfo="simularMovies" /> : <h2 style={{ color: "white" }}>No simular movies</h2>}
         </div>
     );
 };
