@@ -98,8 +98,9 @@ const MovieCover = ({ movieInfo, classInfo }) => {
                 simularMoviesId = data;
             })
         ).then(async () => {
-            if (simularMoviesId.lenght !== undefined) {
+            if (simularMoviesId.length > 0) {
                 for (let i = 0; (simularMoviesId.lenght < 10 ? i < simularMoviesId.lenght : i < 10); i++) {
+                    console.log(i)
                     let options = {
                         method: 'GET',
                         url: 'https://imdb8.p.rapidapi.com/title/get-details',

@@ -68,8 +68,9 @@ const getSelectedMovieReview = async (options, callback) => {
         .then(response => {
             if (response.data.featuredUserReview.review !== undefined) {
                 callback(response.data.featuredUserReview.review.reviewText)
+            } else {
+                callback(false);
             }
-            callback(false);
         }
         )
         .catch(reason => {
@@ -128,8 +129,9 @@ const getSelectedMoviePlot = async (options, callback) => {
         .then(response => {
             if (response.data.plots.length !== 0) {
                 callback(response.data.plots[0].text)
+            } else {
+                callback(false);
             }
-            callback(false);
         })
         .catch(reason => {
             console.log(reason);
